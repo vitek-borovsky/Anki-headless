@@ -3,7 +3,7 @@
 First we need to setup our environment so download anki on system with gui.
 
 ####  Download plugins
-Anki-connect at minimum
+[Anki-connect](https://ankiweb.net/shared/info/2055492159) at minimum (2055492159)
 
 Note: if you are using special note types like `KaTeX` make sure appropriete plugins are installed as well
 
@@ -16,7 +16,9 @@ to the "default" network interface
 - Tools->Add-ons
 - Select anki-connect
 - Click config (right bottom)
-- Change `"webBindAddress": "127.168.0.1",` -> "    "webBindAddress": "0.0.0.0",` (make sure you don't delete trailing comma)
+- Change `"webBindAddress": "127.168.0.1",` -> "webBindAddress": "0.0.0.0",` (make sure you don't delete trailing comma)
+
+Log in / setup Syncing
 
 Close anki
 
@@ -36,5 +38,3 @@ docker run \
     -p 8765:8765 \
     vitkovec/anki-headless:latest
 ```
-
-### Debuging
