@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anki-headless
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anki-headless
+  template:
+    metadata:
+      labels:
+        app: anki-headless
+    spec:
+      containers:
+      - name: anki-headless
+        image: vitkovec/anki-headless:latest
+        ports:
+        - containerPort: 8765
+          name: anki-connect
+        volumeMounts:
+        - name: anki2
+          mountPath: /home/anki/.local/share/Anki2
+        livenessProbe:
+          httpGet:
+            path: /
+            port: anki-connect
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: anki-connect
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+      volumes:
+      - name: anki2
+        persistentVolumeClaim:
+          claimName: anki2-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anki-headless
+spec:
+  selector:
+    app: anki-headless
+  ports:
+    - protocol: TCP
+      name: anki-connect
+      port: 8765
+      targetPort: anki-connect
+---

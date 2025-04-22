@@ -38,3 +38,16 @@ docker run \
     -p 8765:8765 \
     vitkovec/anki-headless:latest
 ```
+
+### Running in kubernetes
+Deployment and service manifest is available [here](anki-headless.yaml).
+And you will still need to create pvc with `anki2-pvc` name.
+
+> [!TIP] Don't forget to create `anki` namespace
+
+Test that it's running correctly
+```bash
+kubectl -n anki port-forward svc/anki-headless 8765:8765
+curl localhost:8765
+# Expected result: {"apiVersion": "AnkiConnect v.6"}
+```
